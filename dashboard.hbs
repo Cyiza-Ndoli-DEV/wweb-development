@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/public/css/">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+   <script src="https://kit.fontawesome.com/fe02953daa.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" integrity="sha384-VyO5GmWfnGdj0AgHiy5wuuNnK0mr8tv7r/1FqlXV5c0Fx/haVZ+mlz+wAuFdVZlH" crossorigin="anonymous">
+  <style>
+    .card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
+
+.card {
+  max-width: 400px; /* set a max-width for the card */
+  margin: 0 auto; /* center the card horizontally */
+}
+#card-properties {
+  flex-direction: row;
+  margin-top: 20px;
+  margin: auto 20px auto 20px;
+}
+
+
+
+
+
+  </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-md bg-primary navbar-dark fixed-top">
+        <a class="navbar-brand" href="#"><img src="/public/uploads/house.png" alt="logo"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav ml-auto float-right">
+            <li class="nav-item">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="#" id="add-property-btn">Add property</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" id="view-property-btn">View Properties</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout" id="view-property-btn">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    
+      
+   
+  
+          <div class="card text-center my-5 bg-primary text-white" style="margin-top: 100px !important">
+        
+            <div class="card-body">
+              
+              <h5 class="card-title">Welcome Home</h5>
+              
+              <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+            
+            </div>
+          
+          </div>
+
+  
+  <div class="container mt-5" id="property-form" style="display: none; width:1000px; margin: top 200px !important">
+    <div class="col-md-6 mx-auto">
+  <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Add property</h3>
+            </div>  
+  <form action="/properties" method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" class="form-control" id="name" name="name" placeholder="Enter name">
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="type">Type</label>
+      <select class="form-control" id="type" name="type" required>
+        <option value="" selected disabled>Select Property Type</option>
+        <option value="house">House</option>
+        <option value="apartment">Apartment</option>
+        <option value="villa">Villa</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="bedrooms">Bedrooms</label>
+      <input type="number" class="form-control" id="bedrooms" name="bedrooms" placeholder="Enter number of bedrooms">
+    </div>
+    <div class="form-group">
+      <label for="bathrooms">Bathrooms</label>
+      <input type="number" class="form-control" id="bathrooms" name="bathrooms" placeholder="Enter number of bathrooms">
+    </div>
+    <div class="form-group">
+      <label for="location">Location</label>
+      <input type="text" class="form-control" id="location" name="location" placeholder="Enter location">
+    </div>
+    <div class="form-group">
+      <label for="cost">Cost</label>
+      <input type="text" class="form-control" id="cost" name="cost" placeholder="Enter price" autocomplete="off">
+    </div>
+    <div class="form-group">
+      <label for="image">Image</label>
+      <input type="file" class="form-control-file" id="image" name="image">
+    </div>
+     
+    <div class="form-group">
+      <label for="maps">Maps</label>
+      <input type="text" class="form-control" id="maps" name="maps" required>
+    </div>
+      <div class="form-group">
+      <label for="ID">Landlord ID</label>
+      <input type="text" class="form-control" id="ID" name="ID" required>
+    </div>
+     <div class="form-group">
+      <label for="ID">Email</label>
+      <input type="text" class="form-control" id="email" name="email" required>
+    </div>
+     <div class="form-group">
+      <label for="ID">Phone Number</label>
+      <input type="text" class="form-control" id="pnone" name="phone" required>
+    </div>
+    <button type="submit" class="btn btn-primary preview" id="preview-btn" >Preview</button>
+    <button type="submit" class="btn btn-primary" id="adding" style="display: none;">Add Property</button>
+
+  </form>
+  </div>
+  </div>
+</div>
+<div class="container mt-5" id="property-form-preview" style="width:1000px;display:none;">
+    <div class="col-md-6 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Preview Property</h3>
+            </div>  
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>Name</td>
+                        <td id="preview-name"></td>
+                    </tr>
+                    <tr>
+                        <td>Description</td>
+                        <td id="preview-description"></td>
+                    </tr>
+                    <tr>
+                        <td>Type</td>
+                        <td id="preview-type"></td>
+                    </tr>
+                    <tr>
+                        <td>Bedrooms</td>
+                        <td id="preview-bedrooms"></td>
+                    </tr>
+                    <tr>
+                        <td>Bathrooms</td>
+                        <td id="preview-bathrooms"></td>
+                    </tr>
+                    <tr>
+                        <td>Location</td>
+                        <td id="preview-location"></td>
+                    </tr>
+                    <tr>
+                        <td>Cost</td>
+                        <td id="preview-cost"></td>
+                    </tr>
+                    <tr>
+                        <td>Image</td>
+                        <td id="preview-image"><img src="" id="preview-image" style="max-height: 200px;"></td>
+                    </tr>
+                    <tr>
+                        <td>Maps</td>
+                        <td id="preview-maps"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="card-footer text-right">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancel-btn">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="accept">Add Property</button>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" id="card-properties" style="display: none;">
+  {{#each properties}}
+    <div class="col">
+      <div class="card">
+        <img src="/images/{{this.image}}" class="card-img-top" alt="{{this.name}}">
+        <!-- Card content -->
+        <div class="card-body">
+          <h5 class="card-title">{{this.name}}</h5>
+          <p class="card-text">{{this.description}}</p>
+        </div>
+        <div class="p-4 pb-0">
+          <h5 class="text-primary mb-3">UGX {{this.this.cost}}</h5>
+          <a class="d-block h5 mb-2" href="">{{this.type}}</a>
+          <p><i class="fa fa-map-marker-alt text-primary me-2"></i>{{this.location}}</p>
+        </div>
+        <div class="d-flex border-top">
+          <small class="flex-fill text-center border-end py-2"><i class="fa fa-phone text-primary me-2"></i>{{this.ownerNumber}}</small>
+          <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>{{this.bedrooms}}</small>
+          <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>{{this.bathrooms}}</small>
+        </div>
+        <div class="card-footer">
+          <button type="button" class="delete-button"><i class="fa fa-trash" style="color: #0a60f5;"></i></button>
+          <!-- Edit Property Button -->
+          <button type="button" class="edit-button" data-toggle="modal" data-target="#editPropertyModal" data-property-id="<%= property.id %>"><i class="fa fa-edit" style="color: #0a60f5;"></i> Edit</button>
+          <button type="button" class="like-button"><i class="fa-solid fa-thumbs-up" style="color: #0a60f5;"></i> <span class="likes">{{this.likeCount}}</span></button>
+          <button type="button" class="like-button"><i class="fa-solid fa-thumbs-down" style="color: #e80202;"></i><span class="likes">{{this.dislikeCount}}</span></button>
+          <button type="button" class="comment-button"><i class="fa-solid fa-comment" style="color: #0a60f5;"></i></button>
+          <div class="comment-section" style="display:none;">
+            <input type="text" class="comment-input" placeholder="Add a comment...">
+            <button type="button" class="comment-submit">Submit</button>
+            <div class="comment-list">
+              {{#each this.comment}}
+                <div class="comment">
+                  <label for="" class="form-label">From {{comment.useremail}}</label>
+                  <p class="comment-text">{{comment.comment_text}}</p>
+                </div>
+                {{/each}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+</div>
+
+
+<!-- Placeholder elements for landlord notification -->
+<div class="container mt-5">
+  <h1 class="mb-4">Lease Requests</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>Property Name</th>
+         <th> Potential tenant</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- This is where the lease requests will be displayed -->
+      {{#each leaseRequest}}
+        <tr>
+          <td>{{this.id}}</td>
+          <td>{{this.propertyName}}</td>
+          <td>{{this.userEmail}}</td>
+          <td>
+            <button type="button" class="accept-btn" data-property-id="{{ propertyId }}" data-user-email="{{ userEmail }}">Accept</button>
+          </td>
+        </tr>
+        {{/each}}
+    </tbody>
+  </table>
+</div>
+
+
+ <div class="modal fade" id="editPropertyModal" tabindex="-1" role="dialog" aria-labelledby="editPropertyModalLabel" aria-hidden="true">
+  <div class="col-md-6 mx-auto">
+    <div class="card">
+      <div class="card-header">
+         <h3 class="card-title">Update Property</h3>
+      </div>
+      <form id="editForm" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <input type="hidden" id="propertyId" name="propertyId">
+          <label for="editname">Name</label>
+          <input type="text" class="form-control" id="editname" name="name" placeholder="Enter name">
+        </div>
+        <div class="form-group">
+          <label for="editdescription">Description</label>
+          <textarea class="form-control" id="editdescription" name="description" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="edittype">Type</label>
+          <select class="form-control" id="edittype" name="type" required>
+            <option value="" selected disabled>Select Property Type</option>
+            <option value="house">House</option>
+            <option value="apartment">Apartment</option>
+            <option value="villa">Villa</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="editbedrooms">Bedrooms</label>
+          <input type="number" class="form-control" id="editbedrooms" name="bedrooms" placeholder="Enter number of bedrooms">
+        </div>
+        <div class="form-group">
+          <label for="editbathrooms">Bathrooms</label>
+          <input type="number" class="form-control" id="editbathrooms" name="bathrooms" placeholder="Enter number of bathrooms">
+        </div>
+        <div class="form-group">
+          <label for="editlocation">Location</label>
+          <input type="text" class="form-control" id="editlocation" name="location" placeholder="Enter location">
+        </div>
+        <div class="form-group">
+          <label for="editcost">Cost</label>
+          <input type="text" class="form-control" id="editcost" name="cost" placeholder="Enter price" autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label for="editimage">Image</label>
+          <input type="file" class="form-control-file" id="editimage" name="image">
+        </div>
+        <div class="form-group">
+          <label for="editmaps">Maps</label>
+          <input type="text" class="form-control" id="editmaps" name="maps" required>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!--Property editing-->
+
+ <footer class="footer mt-5 " style="margin-top: 100px !important;">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h5>About Us</h5>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque.</p>
+      </div>
+      <div class="col-md-3">
+        <h5>Links</h5>
+        <ul class="list-unstyled">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Properties</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="col-md-3">
+        <h5>Contact</h5>
+        <address>
+          <strong>Company Name</strong><br>
+          123 Street, City<br>
+          Country, Postal Code<br>
+          <i class="fa fa-phone"></i> Phone: +1 234 567890<br>
+          <i class="fa fa-envelope"></i> Email: info@example.com
+        </address>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-md-12">
+        <p class="text-center">© 2023 Company Name. All rights reserved.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+ 
+    <script > 
+      const addPropertyBtn = document.querySelector("#add-property-btn");
+const propertyForm = document.querySelector("#property-form");
+const Adding  = document.querySelector("#adding")
+const PreviewBtn = document.querySelector("#preview-btn")
+const propertyPreviw = document.querySelector("#property-form-preview")
+const editProperty = document.querySelector("editbtn")
+const Editmodal  = document.querySelector("#editPropertyModal")
+addPropertyBtn.addEventListener("click", () => {
+     if (propertyForm.style.display === "none") {
+    propertyForm.style.display = "block";
+  } else {
+    propertyForm.style.display = "none";
+  }
+});
+ 
+
+document.getElementById("preview-btn").addEventListener("click", function(event){
+event.preventDefault(); // prevent the form from submitting
+propertyPreviw.style.display="block";
+propertyForm.style.display="none";
+// retrieve the values from the form
+var name = document.getElementById("name").value;
+var description = document.getElementById("description").value;
+var type = document.getElementById("type").value;
+var bedrooms = document.getElementById("bedrooms").value;
+var bathrooms = document.getElementById("bathrooms").value;
+var location = document.getElementById("location").value;
+var cost = document.getElementById("cost").value;
+var maps = document.getElementById("maps").value;
+var image = document.getElementById("image").value;
+
+// populate the table with the values
+document.getElementById("preview-name").innerText = name;
+document.getElementById("preview-description").innerText = description;
+document.getElementById("preview-type").innerText = type;
+document.getElementById("preview-bedrooms").innerText = bedrooms;
+document.getElementById("preview-bathrooms").innerText = bathrooms;
+document.getElementById("preview-location").innerText = location;
+document.getElementById("preview-cost").innerText = cost;
+document.getElementById("preview-maps").innerText = maps;
+document.getElementById("preview-image").innerText = image;
+});
+
+
+$('#cancel-btn').click(function() {
+propertyPreviw.style.display="none";
+$(propertyForm).show();
+});
+$('#accept').click(function() {
+propertyPreviw.style.display="none";
+$(propertyForm).show();
+Adding.style.display= "block";
+PreviewBtn.style.display="none";
+});
+
+
+
+
+const viewPropertyButton = document.getElementById("view-property-btn");
+const cardPropertiesDiv = document.getElementById("card-properties");
+
+viewPropertyButton.addEventListener("click", function() {
+  if (cardPropertiesDiv.style.display === "none") {
+    cardPropertiesDiv.style.display = "flex";
+  } else {
+    cardPropertiesDiv.style.display = "none";
+  }
+});
+
+
+
+ 
+
+// Add event listeners to the like buttons
+// When the heart button is clicked
+$('.like-button').click(function() {
+  // Toggle the "liked" state
+  $(this).toggleClass('liked');
+  
+  // Get the current number of likes
+  var likesEl = $(this).find('.likes');
+  var likes = parseInt(likesEl.text());
+  likes = isNaN(likes) ? 0 : likes;
+  
+  // If the button is now "liked"
+  if ($(this).hasClass('liked')) {
+    // Increment the number of likes
+    likes++;
+  }
+  // If the button is now "unliked"
+  else {
+    // Decrement the number of likes
+    likes--;
+  }
+  
+  // Update the number of likes in the button
+  likesEl.text(likes);
+  $(this).find('.total-likes').text(likes);
+});
+
+$(document).ready(function() {
+  $('.comment-button').on('click', function() {
+    $(this).siblings('.comment-section').toggle();
+  });
+});
+
+
+ 
+    </script>
+    <script>
+  $(document).ready(function() {
+    $('.edit-button').click(function() {
+      var propertyId = $(this).data('property-id');
+      var name = $(this).closest('.card').find('.card-title').text();
+      var description = $(this).closest('.card').find('.card-text').text();
+      var type = $(this).closest('.card').find('.type').text().split(':')[1].trim();
+      var bedrooms = $(this).closest('.card').find('.bed').text().split(':')[1].trim();
+      var bathrooms = $(this).closest('.card').find('.bath').text().split(':')[1].trim();
+      var location = $(this).closest('.card').find('.loc').text().split(':')[1].trim();
+      var cost = $(this).closest('.card').find('.cost').text().split(':')[1].trim();
+      var maps = $(this).closest('.card').find('.map').text().split(':')[1].trim();
+      
+
+      $('#propertyId').val(propertyId);
+      $('#editname').val(name);
+      $('#editdescription').val(description);
+      $('#edittype').val(type);
+      $('#editbedrooms').val(bedrooms);
+      $('#editbathrooms').val(bathrooms);
+      $('#editlocation').val(location);
+      $('#editcost').val(cost);
+      $('#editmaps').val(maps);
+      $('#editForm').attr('action', '/updateproperty/' + propertyId);
+    });
+  });
+
+
+  //Accept lease request
+   $(document).ready(function() {
+    // Listen for click event on like button
+    $('.accept-btn').click(function() {
+      var propertyId = $(this).data('property-id');
+      var userEmail = $(this).data('user-email');
+  $.ajax({
+    url: '/acceptlease',
+    method: 'POST',
+    data: { propertyId: propertyId,
+    userEmail:userEmail,
+      },
+    success: function(response) {
+      // Handle success if needed
+    },
+    error: function(error) {
+      // Handle error if needed
+    }
+    })
+  });
+  });
+
+
+  
+
+</script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
+
+<script src="/scripts.js"></script>
+  </body>
+</html>
